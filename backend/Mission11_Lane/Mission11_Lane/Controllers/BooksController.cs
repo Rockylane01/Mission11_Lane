@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Mission11_Lane.Models;
 
 namespace Mission11_Lane.Controllers
@@ -8,11 +7,11 @@ namespace Mission11_Lane.Controllers
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly BookstoreContext _context;
+        private readonly IBookRepository _repository;
 
-        public BooksController(BookstoreContext context)
+        public BooksController(IBookRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -21,43 +20,15 @@ namespace Mission11_Lane.Controllers
             int pageSize = 5,
             string? sort = null)
         {
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            if (pageSize < 1)
-            {
-                pageSize = 5;
-            }
-
-            IQueryable<Book> query = _context.Books.AsNoTracking();
-
-            // Keep ordering deterministic for paging.
-            if (!string.IsNullOrWhiteSpace(sort) && sort.Equals("title", StringComparison.OrdinalIgnoreCase))
-            {
-                query = query.OrderBy(b => b.Title).ThenBy(b => b.BookID);
-            }
-            else
-            {
-                query = query.OrderBy(b => b.BookID);
-            }
-
-            var totalItems = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-            var items = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var result = await _repository.GetBooksAsync(page, pageSize, sort);
 
             return Ok(new
             {
-                items,
-                page,
-                pageSize,
-                totalItems,
-                totalPages,
+                items = result.Items,
+                page = result.Page,
+                pageSize = result.PageSize,
+                totalItems = result.TotalItems,
+                totalPages = result.TotalPages,
             });
         }
     }

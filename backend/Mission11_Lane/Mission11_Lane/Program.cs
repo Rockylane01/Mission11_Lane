@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Mission11_Lane.Models.BookstoreContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Bookstore")));
+builder.Services.AddScoped<Mission11_Lane.Models.IBookRepository, Mission11_Lane.Models.EfBookRepository>();
 
 builder.Services.AddCors(options =>
 {
