@@ -20,7 +20,7 @@ type PagedBooksResponse = {
   totalPages: number;
 };
 
-const API_BASE_URL = 'http://localhost:5029';
+const API_BASE_URL = 'https://localhost:7211';
 
 function getPageNumbers(currentPage: number, totalPages: number) {
   const windowSize = 5;
