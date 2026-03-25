@@ -5,6 +5,8 @@ namespace Mission11_Lane.Models
     public interface IBookRepository
     {
         Task<BookPageResult> GetBooksAsync(int page, int pageSize, string? sort);
+
+        Task<List<string>> GetCategoriesAsync();
     }
 
     public class BookPageResult

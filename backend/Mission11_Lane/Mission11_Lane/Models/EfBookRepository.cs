@@ -51,6 +51,16 @@ namespace Mission11_Lane.Models
                 TotalPages = totalPages,
             };
         }
+
+        public async Task<List<string>> GetCategoriesAsync()
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .Select(b => b.Category)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToListAsync();
+        }
     }
 }
 

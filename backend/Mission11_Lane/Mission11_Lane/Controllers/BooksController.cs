@@ -31,6 +31,14 @@ namespace Mission11_Lane.Controllers
                 totalPages = result.TotalPages,
             });
         }
+
+        [HttpGet("GetCategories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _repository.GetCategoriesAsync();
+
+            return Ok(categories);
+        }
     }
 }
 
