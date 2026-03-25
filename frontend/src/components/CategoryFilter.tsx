@@ -21,17 +21,27 @@ function CategoryFilter() {
     }, []);
 
     return (
-        <>
-            <h5>Category</h5>
-            <div>
-                {categories.map((category) => (
-                    <div key={category}>
-                        <input type="checkbox" id={category} name={category} />
-                        <label htmlFor={category}>{category}</label>
+        <div className="container mt-3">
+            <h5 className="mb-3">Category</h5>
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-1">
+                {categories.map((category, index) => (
+                    <div key={category} className="col">
+                        <div className="form-check d-flex align-items-center gap-2 h-100">
+                            <input
+                                className="form-check-input m-0"
+                                type="checkbox"
+                                id={`category-${index}`}
+                                name="category"
+                                value={category}
+                            />
+                            <label className="form-check-label m-0 small lh-sm" htmlFor={`category-${index}`}>
+                                {category}
+                            </label>
+                        </div>
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
