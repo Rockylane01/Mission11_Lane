@@ -35,7 +35,7 @@ function getPageNumbers(currentPage: number, totalPages: number) {
   return pages;
 }
 
-export default function BookList() {
+export default function BookList({selectedCategories}: {selectedCategories: string[]}) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [sortByTitle, setSortByTitle] = useState(false);
@@ -47,36 +47,50 @@ export default function BookList() {
   const sortParam = useMemo(() => (sortByTitle ? 'title' : ''), [sortByTitle]);
 
   useEffect(() => {
+    setPage(1);
+  }, [selectedCategories]);
+
+  useEffect(() => {
     async function load() {
       setLoading(true);
       setError(null);
 
+      // Build the URL with the parameters that are needed
       try {
         const url = new URL('/api/books', API_BASE_URL);
         url.searchParams.set('page', String(page));
         url.searchParams.set('pageSize', String(pageSize));
+
+        selectedCategories.forEach((c) => url.searchParams.append('categories', c));
+
         if (sortParam) {
           url.searchParams.set('sort', sortParam);
         }
 
+        // Fetch the data
         const response = await fetch(url);
+
+        // Check if the request was successful and if not, throw an error
         if (!response.ok) {
           throw new Error(`Request failed (${response.status})`);
         }
 
+        // Parse the response as JSON and set the data
         const json = (await response.json()) as PagedBooksResponse;
         setData(json);
-      } catch (e) {
+      } 
+      catch (e) {
         const message = e instanceof Error ? e.message : 'Unknown error';
         setError(message);
         setData(null);
-      } finally {
+      } 
+      finally {
         setLoading(false);
       }
     }
 
     load();
-  }, [page, pageSize, sortParam]);
+  }, [page, pageSize, sortParam, selectedCategories]);
 
   // If page size changes, jump back to page 1.
   function handlePageSizeChange(newPageSize: number) {

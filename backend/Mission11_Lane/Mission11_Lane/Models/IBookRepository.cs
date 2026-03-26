@@ -4,7 +4,11 @@ namespace Mission11_Lane.Models
 {
     public interface IBookRepository
     {
-        Task<BookPageResult> GetBooksAsync(int page, int pageSize, string? sort);
+        Task<BookPageResult> GetBooksAsync(
+            int page,
+            int pageSize,
+            string? sort,
+            List<string>? categories);
 
         Task<List<string>> GetCategoriesAsync();
     }

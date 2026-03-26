@@ -18,9 +18,10 @@ namespace Mission11_Lane.Controllers
         public async Task<IActionResult> GetBooks(
             int page = 1,
             int pageSize = 5,
-            string? sort = null)
+            string? sort = null,
+            [FromQuery] List<string>? categories = null)
         {
-            var result = await _repository.GetBooksAsync(page, pageSize, sort);
+            var result = await _repository.GetBooksAsync(page, pageSize, sort, categories);
 
             return Ok(new
             {
