@@ -1,10 +1,15 @@
 import './App.css'
 import BooksPage from './pages/BooksPage'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <BooksPage />
+      <Router>
+        <Routes>
+          <Route path="/" element={<BooksPage />} />
+        </Routes>
+      </Router>
     </>
   )
 }
