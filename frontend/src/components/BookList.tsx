@@ -1,28 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCart } from '../context/useCart';
-
-/** Shape returned by `GET /api/books` for one row. */
-type Book = {
-  bookID: number;
-  title: string;
-  author: string;
-  publisher: string;
-  isbn: string;
-  classification: string;
-  category: string;
-  pageCount: number;
-  price: number;
-};
-
-/** Paged API envelope: items plus paging metadata for the UI. */
-type PagedBooksResponse = {
-  items: Book[];
-  page: number;
-  pageSize: number;
-  totalItems: number;
-  totalPages: number;
-};
+import type { PagedBooksResponse } from '../types/book';
 
 const API_BASE_URL = 'https://localhost:7211';
 
@@ -46,7 +25,11 @@ function getPageNumbers(currentPage: number, totalPages: number) {
  * Fetches and displays books with paging, optional title sort, and category filters.
  * "Add to cart" uses global cart state; it does not navigate away.
  */
-export default function BookList({selectedCategories}: {selectedCategories: string[]}) {
+export default function BookList({
+  selectedCategories,
+}: {
+  selectedCategories: string[];
+}) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [sortByTitle, setSortByTitle] = useState(false);
