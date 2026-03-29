@@ -1,20 +1,18 @@
-import { useMemo } from 'react';
-
 import { useCart } from '../context/useCart';
 
+/**
+ * Right column on the cart page: subtotal/total (same until tax/shipping exist).
+ * Checkout stays disabled until a payment flow is wired up.
+ */
 export default function CartSummaryCard() {
   const { cartItems } = useCart();
 
-  const subtotal = useMemo(
-    () =>
-      cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      ),
-    [cartItems]
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
   );
 
-  const formatted = (n: number) =>
+  const formatMoney = (n: number) =>
     n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
 
   return (
@@ -25,12 +23,12 @@ export default function CartSummaryCard() {
       <div className="card-body">
         <div className="d-flex justify-content-between small text-body-secondary mb-2">
           <span>Subtotal</span>
-          <span>{formatted(subtotal)}</span>
+          <span>{formatMoney(subtotal)}</span>
         </div>
         <hr className="my-3" />
         <div className="d-flex justify-content-between fw-semibold mb-4">
           <span>Total</span>
-          <span>{formatted(subtotal)}</span>
+          <span>{formatMoney(subtotal)}</span>
         </div>
         <button type="button" className="btn btn-primary w-100" disabled>
           Checkout

@@ -4,6 +4,10 @@ import BookList from '../components/BookList';
 import CategoryFilter from '../components/CategoryFilter';
 import Welcome from '../components/Welcome';
 
+/**
+ * Home / books route: header, sidebar category checkboxes, main book table.
+ * Selected categories are lifted here so both filter and list stay in sync.
+ */
 export default function BooksPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -24,4 +28,3 @@ export default function BooksPage() {
     </div>
   );
 }
-

@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 
 const API_BASE_URL = 'https://localhost:7211';
 
+/**
+ * Loads category names from the API once, then drives `selectedCategories`
+ * in the parent via checkboxes (BooksPage passes the setter down).
+ */
 function CategoryFilter({
   selectedCategories,
   setSelectedCategories,
@@ -26,7 +30,7 @@ function CategoryFilter({
     load();
   }, []);
 
-  function handleCategoryChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleCategoryChange(e: ChangeEvent<HTMLInputElement>) {
     const { value, checked } = e.target;
     if (checked) {
       setSelectedCategories([...selectedCategories, value]);

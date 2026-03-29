@@ -1,5 +1,8 @@
 import { useCart } from '../context/useCart';
 
+/**
+ * Lists cart lines in a table, or an empty state when there is nothing to show.
+ */
 export default function CartItemsPanel() {
   const { cartItems, removeFromCart } = useCart();
 

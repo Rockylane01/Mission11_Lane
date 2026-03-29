@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+/** Title row for the cart page with a link back to browsing. */
 export default function CartPageHeader() {
   return (
     <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">

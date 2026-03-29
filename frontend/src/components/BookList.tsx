@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useCart } from '../context/useCart';
 
+/** Shape returned by `GET /api/books` for one row. */
 type Book = {
   bookID: number;
   title: string;
@@ -14,6 +15,7 @@ type Book = {
   price: number;
 };
 
+/** Paged API envelope: items plus paging metadata for the UI. */
 type PagedBooksResponse = {
   items: Book[];
   page: number;
@@ -24,6 +26,9 @@ type PagedBooksResponse = {
 
 const API_BASE_URL = 'https://localhost:7211';
 
+/**
+ * Builds a short window of page numbers around the current page for pagination buttons.
+ */
 function getPageNumbers(currentPage: number, totalPages: number) {
   const windowSize = 5;
   const start = Math.max(1, currentPage - windowSize);
@@ -37,6 +42,10 @@ function getPageNumbers(currentPage: number, totalPages: number) {
   return pages;
 }
 
+/**
+ * Fetches and displays books with paging, optional title sort, and category filters.
+ * "Add to cart" uses global cart state; it does not navigate away.
+ */
 export default function BookList({selectedCategories}: {selectedCategories: string[]}) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -50,6 +59,7 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
 
   const sortParam = useMemo(() => (sortByTitle ? 'title' : ''), [sortByTitle]);
 
+  // When filters change, start back at page 1 so we do not land past the last page.
   useEffect(() => {
     setPage(1);
   }, [selectedCategories]);
@@ -59,36 +69,32 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
       setLoading(true);
       setError(null);
 
-      // Build the URL with the parameters that are needed
       try {
         const url = new URL('/api/books', API_BASE_URL);
         url.searchParams.set('page', String(page));
         url.searchParams.set('pageSize', String(pageSize));
 
-        selectedCategories.forEach((c) => url.searchParams.append('categories', c));
+        selectedCategories.forEach((c) =>
+          url.searchParams.append('categories', c)
+        );
 
         if (sortParam) {
           url.searchParams.set('sort', sortParam);
         }
 
-        // Fetch the data
         const response = await fetch(url);
 
-        // Check if the request was successful and if not, throw an error
         if (!response.ok) {
           throw new Error(`Request failed (${response.status})`);
         }
 
-        // Parse the response as JSON and set the data
         const json = (await response.json()) as PagedBooksResponse;
         setData(json);
-      } 
-      catch (e) {
+      } catch (e) {
         const message = e instanceof Error ? e.message : 'Unknown error';
         setError(message);
         setData(null);
-      } 
-      finally {
+      } finally {
         setLoading(false);
       }
     }
@@ -96,7 +102,6 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
     load();
   }, [page, pageSize, sortParam, selectedCategories]);
 
-  // If page size changes, jump back to page 1.
   function handlePageSizeChange(newPageSize: number) {
     setPageSize(newPageSize);
     setPage(1);
@@ -205,7 +210,9 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
                           <button
                             type="button"
                             className="btn btn-primary text-nowrap"
-                            onClick={() => handleAddToCart(b.bookID, b.title, b.price)}
+                            onClick={() =>
+                              handleAddToCart(b.bookID, b.title, b.price)
+                            }
                           >
                             Add to Cart
                           </button>
@@ -238,7 +245,10 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
                         key={p}
                         className={`page-item ${p === page ? 'active' : ''}`}
                       >
-                        <button className="page-link" onClick={() => setPage(p)}>
+                        <button
+                          className="page-link"
+                          onClick={() => setPage(p)}
+                        >
                           {p}
                         </button>
                       </li>
@@ -251,7 +261,9 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
                     >
                       <button
                         className="page-link"
-                        onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        onClick={() =>
+                          setPage((p) => Math.min(totalPages, p + 1))
+                        }
                       >
                         Next
                       </button>
@@ -266,4 +278,3 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
     </div>
   );
 }
-

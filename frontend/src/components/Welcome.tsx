@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { useCart } from '../context/useCart';
 
+/**
+ * Site header on the books page: title and cart link with a badge for total units.
+ */
 export default function Welcome() {
   const { cartItems } = useCart();
   const itemCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
