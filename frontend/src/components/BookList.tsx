@@ -107,7 +107,7 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
   return (
     <div className="container py-4">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-        <h1 className="h3 m-0">Bookstore</h1>
+        <h1 className="h3 m-0">Book List</h1>
 
         <div className="d-flex flex-wrap align-items-center gap-3">
           <div className="form-check">
