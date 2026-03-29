@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useCart } from '../context/useCart';
+
 type Book = {
   bookID: number;
   title: string;
@@ -43,6 +45,8 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
   const [data, setData] = useState<PagedBooksResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const { addToCart } = useCart();
 
   const sortParam = useMemo(() => (sortByTitle ? 'title' : ''), [sortByTitle]);
 
@@ -104,12 +108,21 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
     [page, totalPages]
   );
 
+  const handleAddToCart = (bookID: number, title: string, price: number) => {
+    addToCart({
+      bookID,
+      title,
+      price,
+      quantity: 1,
+    });
+  };
+
   return (
     <div className="container py-4">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-        <h1 className="h3 m-0">Book List</h1>
+        <h1 className="h3 m-0 text-nowrap">Book List</h1>
 
-        <div className="d-flex flex-wrap align-items-center gap-3">
+        <div className="d-flex flex-wrap align-items-center gap-3 flex-shrink-0">
           <div className="form-check">
             <input
               className="form-check-input"
@@ -169,6 +182,7 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
                       <th>Category</th>
                       <th className="text-end">Pages</th>
                       <th className="text-end">Price</th>
+                      <th className="text-end text-nowrap">Add to Cart</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -186,6 +200,15 @@ export default function BookList({selectedCategories}: {selectedCategories: stri
                             style: 'currency',
                             currency: 'USD',
                           })}
+                        </td>
+                        <td className="text-end">
+                          <button
+                            type="button"
+                            className="btn btn-primary text-nowrap"
+                            onClick={() => handleAddToCart(b.bookID, b.title, b.price)}
+                          >
+                            Add to Cart
+                          </button>
                         </td>
                       </tr>
                     ))}
