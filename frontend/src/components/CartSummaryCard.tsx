@@ -1,4 +1,5 @@
 import { useCart } from '../context/useCart';
+import { formatUsd } from '../utils/formatUsd';
 
 /**
  * Right column on the cart page: subtotal/total (same until tax/shipping exist).
@@ -12,9 +13,6 @@ export default function CartSummaryCard() {
     0
   );
 
-  const formatMoney = (n: number) =>
-    n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
-
   return (
     <div className="card shadow-sm border-0">
       <div className="card-header bg-body-secondary py-3">
@@ -23,12 +21,12 @@ export default function CartSummaryCard() {
       <div className="card-body">
         <div className="d-flex justify-content-between small text-body-secondary mb-2">
           <span>Subtotal</span>
-          <span>{formatMoney(subtotal)}</span>
+          <span>{formatUsd(subtotal)}</span>
         </div>
         <hr className="my-3" />
         <div className="d-flex justify-content-between fw-semibold mb-4">
           <span>Total</span>
-          <span>{formatMoney(subtotal)}</span>
+          <span>{formatUsd(subtotal)}</span>
         </div>
         <button type="button" className="btn btn-primary w-100" disabled>
           Checkout

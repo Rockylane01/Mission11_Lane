@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import BookList from '../components/BookList';
+import BookListCartSummary from '../components/BookListCartSummary';
 import CategoryFilter from '../components/CategoryFilter';
 import Welcome from '../components/Welcome';
 
@@ -14,6 +15,7 @@ export default function BooksPage() {
   return (
     <div className="container">
       <Welcome />
+      <BookListCartSummary />
       <div className="row">
         <div className="col-md-3">
           <CategoryFilter
