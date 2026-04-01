@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useCart } from '../context/useCart';
 import type { PagedBooksResponse } from '../types/book';
-
-const API_BASE_URL = 'https://localhost:7211';
+import { fetchBooks } from '../api/BooksAPI';
 
 /**
  * Builds a short window of page numbers around the current page for pagination buttons.
@@ -49,30 +48,16 @@ export default function BookList({
 
   useEffect(() => {
     async function load() {
-      setLoading(true);
-      setError(null);
-
       try {
-        const url = new URL('/api/books', API_BASE_URL);
-        url.searchParams.set('page', String(page));
-        url.searchParams.set('pageSize', String(pageSize));
-
-        selectedCategories.forEach((c) =>
-          url.searchParams.append('categories', c)
+        setLoading(true);
+        setError(null);
+        const response = await fetchBooks(
+          page,
+          pageSize,
+          selectedCategories,
+          sortParam
         );
-
-        if (sortParam) {
-          url.searchParams.set('sort', sortParam);
-        }
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`Request failed (${response.status})`);
-        }
-
-        const json = (await response.json()) as PagedBooksResponse;
-        setData(json);
+        setData(response);
       } catch (e) {
         const message = e instanceof Error ? e.message : 'Unknown error';
         setError(message);
@@ -106,7 +91,7 @@ export default function BookList({
   };
 
   return (
-    <div className="container py-4">
+    <div className="py-4">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
         <h1 className="h3 m-0 text-nowrap">Book List</h1>
 
