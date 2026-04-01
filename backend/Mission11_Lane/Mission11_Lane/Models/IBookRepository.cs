@@ -11,6 +11,14 @@ namespace Mission11_Lane.Models
             List<string>? categories);
 
         Task<List<string>> GetCategoriesAsync();
+
+        Task<Book?> GetBookByIdAsync(int bookId);
+
+        Task<Book> AddBookAsync(Book book);
+
+        Task<Book?> UpdateBookAsync(int bookId, Book book);
+
+        Task<bool> DeleteBookAsync(int bookId);
     }
 
     public class BookPageResult

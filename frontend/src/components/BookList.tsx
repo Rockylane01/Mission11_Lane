@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '../context/useCart';
 import type { PagedBooksResponse } from '../types/book';
 import { fetchBooks } from '../api/BooksAPI';
+import Pagination from './Pagination';
 
 /**
  * Builds a short window of page numbers around the current page for pagination buttons.
@@ -191,54 +192,13 @@ export default function BookList({
                 </table>
               </div>
 
-              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-3">
-                <div className="text-muted">
-                  Page {data.page} of {data.totalPages} ({data.totalItems} total
-                  books)
-                </div>
-
-                <nav aria-label="Book pages">
-                  <ul className="pagination pagination-sm mb-0">
-                    <li className={`page-item ${page <= 1 ? 'disabled' : ''}`}>
-                      <button
-                        className="page-link"
-                        onClick={() => setPage((p) => Math.max(1, p - 1))}
-                      >
-                        Previous
-                      </button>
-                    </li>
-
-                    {pageNumbers.map((p) => (
-                      <li
-                        key={p}
-                        className={`page-item ${p === page ? 'active' : ''}`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => setPage(p)}
-                        >
-                          {p}
-                        </button>
-                      </li>
-                    ))}
-
-                    <li
-                      className={`page-item ${
-                        page >= totalPages ? 'disabled' : ''
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() =>
-                          setPage((p) => Math.min(totalPages, p + 1))
-                        }
-                      >
-                        Next
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <Pagination 
+                page={page} 
+                totalPages={totalPages}
+                setPage={setPage} 
+                pageNumbers={pageNumbers} 
+                totalItems={data.totalItems}
+              />
             </>
           )}
         </div>

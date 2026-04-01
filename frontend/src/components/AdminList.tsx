@@ -142,10 +142,10 @@ const AdminList = () => {
                               })}
                             </td>
                             <td>
-                                <button className="btn btn-primary">Edit</button>
+                                <button className="btn btn-primary btn-sm">Edit</button>
                             </td>
                             <td>
-                                <button className="btn btn-danger">Delete</button>
+                                <button className="btn btn-danger btn-sm">Delete</button>
                             </td>
                           </tr>
                         ))}

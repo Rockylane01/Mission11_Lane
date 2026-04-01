@@ -80,6 +80,55 @@ namespace Mission11_Lane.Models
                 .OrderBy(c => c)
                 .ToListAsync();
         }
+
+        public async Task<Book?> GetBookByIdAsync(int bookId)
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.BookID == bookId);
+        }
+
+        public async Task<Book> AddBookAsync(Book book)
+        {
+            book.BookID = 0;
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+            return book;
+        }
+
+        public async Task<Book?> UpdateBookAsync(int bookId, Book book)
+        {
+            var existing = await _context.Books.FindAsync(bookId);
+            if (existing == null)
+            {
+                return null;
+            }
+
+            existing.Title = book.Title;
+            existing.Author = book.Author;
+            existing.Publisher = book.Publisher;
+            existing.ISBN = book.ISBN;
+            existing.Classification = book.Classification;
+            existing.Category = book.Category;
+            existing.PageCount = book.PageCount;
+            existing.Price = book.Price;
+
+            await _context.SaveChangesAsync();
+            return existing;
+        }
+
+        public async Task<bool> DeleteBookAsync(int bookId)
+        {
+            var existing = await _context.Books.FindAsync(bookId);
+            if (existing == null)
+            {
+                return false;
+            }
+
+            _context.Books.Remove(existing);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 
