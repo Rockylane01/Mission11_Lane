@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from 'react';
 
-const API_BASE_URL = 'https://localhost:7211';
+const API_BASE_URL = 'https://rocky-api-hbeedvbncae6f4gu.francecentral-01.azurewebsites.net';
 
 /**
  * Loads category names from the API once, then drives `selectedCategories`
