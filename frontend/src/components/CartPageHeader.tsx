@@ -7,7 +7,7 @@ export default function CartPageHeader() {
       <h1 className="h2 mb-0 text-body-emphasis text-nowrap">Shopping cart</h1>
       <Link
         to="/books"
-        className="btn btn-outline-secondary btn-sm text-nowrap"
+        className="btn btn-secondary btn-sm text-white text-nowrap"
       >
         Continue shopping
       </Link>

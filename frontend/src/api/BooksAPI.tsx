@@ -1,4 +1,4 @@
-import type { PagedBooksResponse } from '../types/book';
+import type { Book, PagedBooksResponse } from '../types/book';
 
 const API_BASE_URL = 'https://localhost:7211';
 
@@ -29,4 +29,36 @@ export async function fetchBooks(
   }
 
   return (await response.json()) as PagedBooksResponse;
-}
+};
+
+export async function addBook(book: Book): Promise<Book> {
+  const response = await fetch(`${API_BASE_URL}/api/books`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(book),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed (${response.status})`);
+  }
+
+  return (await response.json()) as Book;
+};
+
+export async function updateBook(bookID: number, book: Book): Promise<Book> {
+  const response = await fetch(`${API_BASE_URL}/api/books/${bookID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(book),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed (${response.status})`);
+  }
+
+  return (await response.json()) as Book;
+};

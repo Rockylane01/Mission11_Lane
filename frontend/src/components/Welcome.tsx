@@ -16,7 +16,7 @@ export default function Welcome() {
           Book Store
         </h1>
         <div className="d-flex align-items-center gap-2 flex-shrink-0">
-          <Link to="/admin" className="btn btn-outline-secondary text-nowrap">
+          <Link to="/admin" className="btn btn-secondary text-white text-nowrap">
             Admin
           </Link>
           <Link

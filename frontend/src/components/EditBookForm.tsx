@@ -1,28 +1,18 @@
 import { type ChangeEvent, useState } from 'react';
 
 import type { Book } from '../types/book';
-import { addBook } from '../api/BooksAPI';
+import { updateBook } from '../api/BooksAPI';
 
-const emptyBook: Book = {
-  bookID: 0,
-  title: '',
-  author: '',
-  publisher: '',
-  isbn: '',
-  classification: '',
-  category: '',
-  pageCount: 0,
-  price: 0,
-};
-
-export default function NewBookForm({
+export default function EditBookForm({
+  book,
   onCancel,
   onSuccess,
 }: {
+  book: Book;
   onCancel: () => void;
   onSuccess: () => void;
 }) {
-  const [formData, setFormData] = useState<Book>(emptyBook);
+  const [formData, setFormData] = useState<Book>(book);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value, type } = e.target;
@@ -35,22 +25,13 @@ export default function NewBookForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addBook(formData);
-    setFormData(emptyBook);
+    await updateBook(formData.bookID, formData);
     onSuccess();
   };
-
+  
   return (
-    <div className="card shadow mb-4 rounded-3 border border-secondary-subtle bg-body-secondary">
-      <div className="card-header py-3 px-4 border-bottom border-secondary-subtle">
-        <h2 className="h4 mb-0 text-body-emphasis">Add New Book</h2>
-        <p className="text-body-secondary small mb-0 mt-2">
-          Enter the book details below.
-        </p>
-      </div>
-      <div className="card-body px-4 pb-4">
-        <form onSubmit={handleSubmit}>
-          <div className="row g-3">
+    <form onSubmit={handleSubmit}>
+        <div className="row g-3">
             <div className="col-12">
               <label htmlFor="title" className="form-label">
                 Title
@@ -160,18 +141,16 @@ export default function NewBookForm({
                 />
               </div>
             </div>
-          </div>
+        </div>
 
-          <div className="d-flex flex-wrap justify-content-end gap-2 mt-4 pt-3 border-top border-secondary-subtle">
+        <div className="d-flex flex-wrap justify-content-end gap-2 mt-4 pt-3 border-top border-secondary-subtle">
             <button type="button" className="btn btn-secondary text-white" onClick={onCancel}>
-              Cancel
+                Cancel
             </button>
             <button type="submit" className="btn btn-primary px-4">
-              Add book
+                Update book
             </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        </div>
+    </form>
   );
 }

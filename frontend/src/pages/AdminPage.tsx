@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import AdminList from "../components/AdminList";
-import Welcome from "../components/Welcome";
 
 export default function AdminPage() {
     return (
@@ -11,7 +10,7 @@ export default function AdminPage() {
                         Book Store
                     </h1>
                     <div className="d-flex align-items-center gap-2 flex-shrink-0">
-                        <Link to="/books" className="btn btn-outline-secondary text-nowrap">
+                        <Link to="/books" className="btn btn-secondary text-white text-nowrap">
                             Store Page
                         </Link>
                     </div>
