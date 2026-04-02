@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://rocky-api-hbeedvbncae6f4gu.francecentral-01.azurewebsites.net")
+        policy.WithOrigins("http://localhost:5173", "https://gentle-rock-051444c1e.2.azurestaticapps.net")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
