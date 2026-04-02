@@ -1,6 +1,6 @@
 import type { Book, PagedBooksResponse } from '../types/book';
 
-const API_BASE_URL = 'https://localhost:7211';
+const API_BASE_URL = 'https://rocky-api-hbeedvbncae6f4gu.francecentral-01.azurewebsites.net';
 
 /**
  * GET /api/books with paging, optional sort, and category filters.

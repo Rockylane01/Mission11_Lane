@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9dd710bf-2a0d-4d68-893a-2e3bad9e8356/resourceGroups/appsvc_windows_francecentral/providers/Microsoft.Web/sites/Rocky-API",
+    "appService.deploySubpath": "backend\\Mission11_Lane\\Mission11_Lane\\publish"
+}
