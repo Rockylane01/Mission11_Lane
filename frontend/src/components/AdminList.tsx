@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Book, PagedBooksResponse } from "../types/book";
-import { fetchBooks } from "../api/BooksAPI";
+import { deleteBook, fetchBooks } from "../api/BooksAPI";
 import Pagination from "./Pagination";
 import NewBookForm from "./NewBookForm";
 import EditBookForm from "./EditBookForm";
@@ -55,6 +55,21 @@ const AdminList = () => {
     function handlePageSizeChange(newPageSize: number) {
         setPageSize(newPageSize);
         setPage(1);
+    }
+
+    const handleDelete = async (bookID: number) => {
+      const confirm = window.confirm('Are you sure you want to delete this book?');
+      if (confirm) {
+        try {
+          await deleteBook(bookID);
+          fetchBooks(page, pageSize, [], sortByTitle ? 'title' : '').then((data) =>
+            setData(data));
+        }
+        catch (e) {
+          const message = e instanceof Error ? e.message : 'Unknown error';
+          setError(message);
+        }
+      }
     }
 
     const totalPages = data?.totalPages ?? 1;
@@ -193,7 +208,7 @@ const AdminList = () => {
                                   <button className="btn btn-primary btn-sm" onClick={() => setEditingBook(b)}>Edit</button>
                               </td>
                               <td>
-                                  <button className="btn btn-danger btn-sm">Delete</button>
+                                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(b.bookID)}>Delete</button>
                               </td>
                             </tr>
                           ))}

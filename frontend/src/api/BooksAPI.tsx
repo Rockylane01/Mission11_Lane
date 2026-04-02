@@ -62,3 +62,13 @@ export async function updateBook(bookID: number, book: Book): Promise<Book> {
 
   return (await response.json()) as Book;
 };
+
+export async function deleteBook(bookID: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/books/${bookID}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed (${response.status})`);
+  }
+};
